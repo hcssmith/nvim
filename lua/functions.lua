@@ -1,7 +1,17 @@
 function mkdir()
   local dir = vim.api.nvim_buf_get_name(0)
   d = dir:match("(.*/)")
-  os.execute('mkdir -p '..d)
+  local ok, err, code = os.rename(d,d)
+  if not ok then
+    if code == 13 then
+      return
+    end
+  end
+  if ok then return end
+  print('Create missing directory? (y)')
+  vim.api.nvim_command("let b:conf = nr2char(getchar())")
+  local conf = vim.api.nvim_buf_get_var(0, 'conf')
+  if conf == 'y' then os.execute('mkdir -p '..d) else return end
 end
 vim.api.nvim_command('command! Mkdir lua mkdir()')
 
