@@ -1,6 +1,9 @@
 require("functions.create_auto_commands")
 
 local autocmds = {
+  onstart = {
+    {"BufWinEnter", "*", ":NvimTreeToggle"}
+  },
   saving = {
     {"BufWritePre",  "*",  ":lua Mkdir()"}
   }
