@@ -9,7 +9,7 @@ RUN cd /usr/local/neovim  && make CMAKE_BUILD_TYPE=RelWithDebInfo && make instal
 
 # install lsp servers
 
-RUN apk add --no-cache lua-language-server
+RUN apk add --no-cache lua-language-server ccls
 
 
 # install treesitter grammars
@@ -25,7 +25,7 @@ WORKDIR /src
 RUN mkdir -p /home/nvim/.local/share/nvim/site/pack/colors/start
 ADD https://github.com/rose-pine/neovim.git /home/nvim/.local/share/nvim/site/pack/colors/start/rose-pine
 
-# install config
+COPY . /home/nvim/.config/nvim/
 
 # go straight into neovim
 CMD ["/usr/local/bin/nvim"]

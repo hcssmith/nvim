@@ -50,7 +50,8 @@ end)
 
 
 vim.lsp.enable({
-  "luals"
+  "luals",
+  "ccls"
 })
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -138,11 +139,9 @@ _G.lsp_status = function()
       end
       if progress.value.kind == "begin" then
         lsp_progress[progress.token] = "begin"
-        vim.print("T:" .. progress.token .. " begin")
       end
       if progress.value.kind == "end" then
         lsp_progress[progress.token] = "end"
-        vim.print("T:" .. progress.token .. " end")
       end
       local title = progress.value.title or ""
       local msg = progress.value.message or ""
@@ -210,6 +209,7 @@ _G.lineinfo = function()
   end
   return " %P %l:%c "
 end
+
 
 local status = {
   '%{%v:lua.branch_name()%}',
