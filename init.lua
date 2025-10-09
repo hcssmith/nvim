@@ -95,7 +95,8 @@ local mode_map = {
   ["rm"] = { "MOAR", "Normal" },
   ["r?"] = { "CONFIRM", "Normal" },
   ["!"] = { "SHELL", "Normal" },
-  ["t"] = { "TERMINAL", "Normal" }
+  ["t"] = { "TERMINAL", "Normal" },
+  ["nt"] = { "TERMINAL", "Normal" }
 }
 
 _G.mode = function()
