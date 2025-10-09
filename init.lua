@@ -17,9 +17,18 @@ vim.opt.signcolumn = "yes"
 vim.opt.winborder = "rounded"
 vim.opt.path:append('**')
 
-vim.g.mapleader = " "
-vim.cmd.colorscheme("rose-pine-main")
 
+
+vim.g.mapleader = " "
+vim.cmd.colorscheme("habamax")
+
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+  highlight StatusDefault ctermbg=NONE cterm=NONE
+]]
 -- General keybinds
 
 vim.keymap.set('i', 'jk', '<Esc>')
