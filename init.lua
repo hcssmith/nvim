@@ -17,9 +17,18 @@ vim.opt.signcolumn = "yes"
 vim.opt.winborder = "rounded"
 vim.opt.path:append('**')
 
-vim.g.mapleader = " "
-vim.cmd.colorscheme("rose-pine-main")
 
+
+vim.g.mapleader = " "
+vim.cmd.colorscheme("habamax")
+
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+  highlight StatusDefault ctermbg=NONE cterm=NONE
+]]
 -- General keybinds
 
 vim.keymap.set('i', 'jk', '<Esc>')
@@ -31,10 +40,10 @@ vim.diagnostic.config({
   virtual_text = false,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.HINT] = '󰘥',
-      [vim.diagnostic.severity.INFO] = '',
-      [vim.diagnostic.severity.WARN] = ''
+      [vim.diagnostic.severity.ERROR] = '!!',
+      [vim.diagnostic.severity.HINT] = '?',
+      [vim.diagnostic.severity.INFO] = 'I',
+      [vim.diagnostic.severity.WARN] = '>'
     }
   }
 })
@@ -164,7 +173,7 @@ _G.lsp_status = function()
   local hi = "%#DiagnosticOk#%"
   local reset = "%#StatusDefault#%"
 
-  return string.format("%s 󰘧 %s %s ", hi, status_message, reset)
+  return string.format("%s %s %s ", hi, status_message, reset)
 end
 
 vim.api.nvim_create_autocmd('LspProgress', {
@@ -185,7 +194,7 @@ _G.lsp_warnings = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("%s > %s %s ", hi, count, reset)
 end
 
 _G.lsp_errors = function()
@@ -197,7 +206,7 @@ _G.lsp_errors = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("%s !! %s %s ", hi, count, reset)
 end
 
 _G.filetype = function()
