@@ -51,7 +51,7 @@ end)
 
 vim.lsp.enable({
   "luals",
-  "ccls"
+  "clangd"
 })
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
