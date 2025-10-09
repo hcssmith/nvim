@@ -31,10 +31,10 @@ vim.diagnostic.config({
   virtual_text = false,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.HINT] = '󰘥',
-      [vim.diagnostic.severity.INFO] = '',
-      [vim.diagnostic.severity.WARN] = ''
+      [vim.diagnostic.severity.ERROR] = '!!',
+      [vim.diagnostic.severity.HINT] = '?',
+      [vim.diagnostic.severity.INFO] = 'I',
+      [vim.diagnostic.severity.WARN] = '>'
     }
   }
 })
@@ -164,7 +164,7 @@ _G.lsp_status = function()
   local hi = "%#DiagnosticOk#%"
   local reset = "%#StatusDefault#%"
 
-  return string.format("%s 󰘧 %s %s ", hi, status_message, reset)
+  return string.format("%s %s %s ", hi, status_message, reset)
 end
 
 vim.api.nvim_create_autocmd('LspProgress', {
@@ -185,7 +185,7 @@ _G.lsp_warnings = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("%s > %s %s ", hi, count, reset)
 end
 
 _G.lsp_errors = function()
@@ -197,7 +197,7 @@ _G.lsp_errors = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("%s !! %s %s ", hi, count, reset)
 end
 
 _G.filetype = function()
