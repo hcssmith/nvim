@@ -60,7 +60,7 @@ end)
 
 vim.lsp.enable({
   "luals",
-  "clangd"
+  "clangd",
   "bashls"
 })
 vim.api.nvim_create_autocmd('LspAttach', {
