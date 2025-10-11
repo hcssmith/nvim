@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ $(pwd) == "${HOME}/.config/nvim" ]]; then
+  notify-send --proirty normal "Neovim" "Neovim config updated."
+fi
