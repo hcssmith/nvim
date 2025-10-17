@@ -236,3 +236,11 @@ local status = {
 
 vim.o.statusline = table.concat(status, ' ')
 vim.o.laststatus = 3
+
+if vim.g.neovide then
+  vim.o.guifont = "FiraCode Nerd Font:h10"
+  vim.g.neovide_opacity = 0.7
+  vim.g.transparency = 0.8
+  vim.g.neovide_cursor_trail_size = 0.5
+  vim.g.neovide_cursor_short_animation_length = 0.04
+end
