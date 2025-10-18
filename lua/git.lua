@@ -13,7 +13,7 @@ vim.api.nvim_create_user_command(
   function(args)
     local branch = branch_name()
     vim.fn.system({ "git", "push", "origin", branch })
-    vim.print("Pushed " .. branch .. "to origin")
+    vim.print("Pushed " .. branch .. " to origin")
   end,
   {})
 

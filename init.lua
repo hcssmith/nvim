@@ -46,6 +46,7 @@ vim.filetype.add({
   }
 })
 
+require("git")
 require("quickfix")
 require("lsp")
 require("statusline")
