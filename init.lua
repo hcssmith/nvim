@@ -20,7 +20,7 @@ vim.opt.path:append('**')
 
 
 vim.g.mapleader = " "
-vim.cmd.colorscheme("darkblue")
+vim.cmd.colorscheme("default")
 
 vim.cmd [[
   highlight Normal guibg=none
