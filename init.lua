@@ -20,7 +20,7 @@ vim.opt.path:append('**')
 
 
 vim.g.mapleader = " "
-vim.cmd.colorscheme("habamax")
+vim.cmd.colorscheme("darkblue")
 
 vim.cmd [[
   highlight Normal guibg=none
@@ -34,17 +34,18 @@ if vim.g.neovide then
   vim.o.guifont = "FiraCode Nerd Font:h10"
   vim.g.neovide_opacity = 0.7
   vim.g.transparency = 0.8
-  vim.g.neovide_cursor_trail_size = 0.5
-  vim.g.neovide_cursor_short_animation_length = 0.04
+  vim.g.neovide_cursor_animation_length = 0.05
 end
 
 vim.keymap.set('i', 'jk', '<Esc>')
 vim.keymap.set('n', '<leader>ff', ':find ')
-vim.keymap.set('n', '<leader>ll', ':make<CR>', { silent = true })
-vim.keymap.set('n', ']q', ':cnext<CR>')
-vim.keymap.set('n', '[q', ':cprev<CR>')
-vim.keymap.set('n', '<leader>qf', ':copen<CR>')
 
+vim.filetype.add({
+  extension = {
+    nw = "tex"
+  }
+})
 
+require("quickfix")
 require("lsp")
 require("statusline")

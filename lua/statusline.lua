@@ -1,5 +1,3 @@
-
-
 local mode_map = {
   ["n"] = { "NORMAL", "Normal" },
   ["no"] = { "NORMAL", "Normal" },
@@ -21,7 +19,10 @@ local mode_map = {
   ["r?"] = { "CONFIRM", "Normal" },
   ["!"] = { "SHELL", "Normal" },
   ["t"] = { "TERMINAL", "Normal" },
-  ["nt"] = { "TERMINAL", "Normal" }
+  ["nt"] = { "TERMINAL", "Normal" },
+  ["niI"] = {"INSERT NORMAL", "Normal"},
+  ["niR"] = {"REPLACE NORMAL", "Normal"},
+  ["niV"] = {"VISUAL NORMAL", "Normal"}
 }
 
 _G.mode = function()
@@ -35,7 +36,7 @@ _G.branch_name = function()
   local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
   local hi = "%#DiagnosticInfo#%"
   if branch ~= "" then
-    return string.format("  %s  %s", hi, branch)
+    return string.format("%s   %s", hi, branch)
   else
     return ""
   end
@@ -89,7 +90,7 @@ _G.lsp_status = function()
   local hi = "%#DiagnosticOk#%"
   local reset = "%#StatusDefault#%"
 
-  return string.format("%s %s %s ", hi, status_message, reset)
+  return string.format("%s  %s %s ", hi, status_message, reset)
 end
 
 vim.api.nvim_create_autocmd('LspProgress', {
@@ -110,7 +111,7 @@ _G.lsp_warnings = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s > %s %s ", hi, count, reset)
+  return string.format("%s  %s %s ", hi, count, reset)
 end
 
 _G.lsp_errors = function()
@@ -122,11 +123,13 @@ _G.lsp_errors = function()
   if count == 0 then
     return ""
   end
-  return string.format("%s !! %s %s ", hi, count, reset)
+  return string.format("%s  %s %s ", hi, count, reset)
 end
 
 _G.filetype = function()
-  return string.format(" %s ", vim.bo.filetype):upper()
+  local ft = vim.bo.filetype
+  local icon = require("filetype_map").get_icon(ft)
+  return string.format(" %s %s ", ft, icon):upper()
 end
 
 _G.lineinfo = function()
