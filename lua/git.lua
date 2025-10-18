@@ -11,19 +11,18 @@ end
 
 
 vim.api.nvim_create_user_command(
-  'GitStage',
+  'GitPush',
   function(args)
     local branch = branch_name()
     vim.fn.system({"git", "push", "origin", branch})
     vim.print("Pushed " .. branch .. "to origin")
   end,
 {
-  nargs = "?",
-  complete = "file"
+  nargs = 0
 })
 
 vim.api.nvim_create_user_command(
-  'GitPush',
+  'GitStage',
   function(args)
     local file = args.args
     if file == "" then
