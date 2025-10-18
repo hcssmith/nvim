@@ -1,5 +1,5 @@
 #!/bin/bash
 
 if [[ $(pwd) == "${HOME}/.config/nvim" ]]; then
-  notify-send --priorty normal "Neovim" "Neovim config updated."
+  notify-send --urgency normal "Neovim" "Neovim config updated."
 fi
