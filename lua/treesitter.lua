@@ -1,5 +1,5 @@
 local parsers = {
-  cs = "c_charp"
+  cs = "c_sharp"
 }
 
 
