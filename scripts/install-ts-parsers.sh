@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 
 PACKDIR="$HOME/.local/share/nvim/site/pack/treesitter/start/"
 ROCKDIR="$HOME/.local/share/nvim/rocks/"
