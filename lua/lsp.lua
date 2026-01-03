@@ -27,19 +27,61 @@ vim.lsp.enable({
   "ols",
   "csharp_ls"
 })
+
+---@param client vim.lsp.Client
+---@param bufnr integer
+---@param modes string|string[]
+---@param lhs string
+---@param rhs function
+---@param method string
+---@param deny table<string, boolean>|nil
+local function map_if_supported(client, bufnr, modes, lhs, rhs, method, deny)
+  if deny and deny[client.name] then
+    return
+  end
+
+  if not client:supports_method(method) then
+    return
+  end
+
+  vim.keymap.set(modes, lhs, rhs, {
+    buffer = bufnr,
+    silent = true,
+  })
+end
+
+---@param client vim.lsp.Client
+---@param method string
+---@param fn fun()
+local function enable_if_supported(client, method, fn)
+  if client:supports_method(method) then
+    fn()
+  end
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+    local bufnr = args.buf
+
     client.server_capabilities.semanticTokensProvider = nil
-    if client:supports_method('textDocument/inlayHint') then
-      vim.lsp.inlay_hint.enable(true)
-    end
-    if client:supports_method('textDocument/formatting') then
-      vim.keymap.set("n", '<leader>lf', vim.lsp.buf.format, { buffer = args.buf })
-    end
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    enable_if_supported(client, 'textDocument/inlayHint', function()
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end)
+    enable_if_supported(client, 'textDocument/completion', function()
+      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
       vim.opt.completeopt = "menu,noinsert,fuzzy"
-    end
+    end)
+
+    map_if_supported(client, bufnr, 'n', '<leader>lf', vim.lsp.buf.format, 'textDocument/formatting', {csharp_ls = true})
+    map_if_supported(client, bufnr, 'n', 'gd', vim.lsp.buf.definition, 'textDocument/definition')
+    map_if_supported(client, bufnr, 'n', 'gD', vim.lsp.buf.declaration, 'textDocument/declaration')
+    map_if_supported(client, bufnr, 'n', 'gi', vim.lsp.buf.implementation, 'textDocument/implementation')
+    map_if_supported(client, bufnr, 'n', 'gy', vim.lsp.buf.type_definition, 'textDocument/typeDefinition')
+    map_if_supported(client, bufnr, 'n', 'K', vim.lsp.buf.hover, 'textDocument/hover')
+    map_if_supported(client, bufnr, 'i', '<C-k>', vim.lsp.buf.signature_help, 'textDocument/signatureHelp')
+    map_if_supported(client, bufnr, 'n', 'gr', vim.lsp.buf.references, 'textDocument/references')
+    map_if_supported(client, bufnr, 'n', 'rn', vim.lsp.buf.rename, 'textDocument/rename')
+
   end,
 })
