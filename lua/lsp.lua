@@ -34,7 +34,12 @@ vim.lsp.enable({
 ---@param lhs string
 ---@param rhs function
 ---@param method string
-local function map_if_supported(client, bufnr, modes, lhs, rhs, method)
+---@param deny table<string, boolean>|nil
+local function map_if_supported(client, bufnr, modes, lhs, rhs, method, deny)
+  if deny and deny[client.name] then
+    return
+  end
+
   if not client:supports_method(method) then
     return
   end
@@ -68,7 +73,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.opt.completeopt = "menu,noinsert,fuzzy"
     end)
 
-    map_if_supported(client, bufnr, 'n', '<leader>lf', vim.lsp.buf.format, 'textDocument/formatting')
+    map_if_supported(client, bufnr, 'n', '<leader>lf', vim.lsp.buf.format, 'textDocument/formatting', {csharp_ls = true})
     map_if_supported(client, bufnr, 'n', 'gd', vim.lsp.buf.definition, 'textDocument/definition')
     map_if_supported(client, bufnr, 'n', 'gD', vim.lsp.buf.declaration, 'textDocument/declaration')
     map_if_supported(client, bufnr, 'n', 'gi', vim.lsp.buf.implementation, 'textDocument/implementation')

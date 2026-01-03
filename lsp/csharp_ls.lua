@@ -28,7 +28,7 @@ return {
         enable = true
       },
       formatting = {
-        enable = true
+        enable = false
       }
     }
   }

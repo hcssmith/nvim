@@ -1,5 +1,3 @@
-vim.keymap.del('n', '<leader>lf', { buffer = true })
-
 local function find_dotnet_workspace()
   -- Prefer solution
   local sln = vim.fs.find(function(name)
@@ -53,11 +51,11 @@ vim.keymap.set('n', '<leader>lf', function()
         -- Restart C# LSP clients to refresh analyzers / formatting
         for _, client in ipairs(vim.lsp.get_clients({
           name = 'csharp_ls' })) do
-            if client:supports_method('workspace/didChangeConfiguration') then
-              client:notify('workspace/didChangeConfiguration', { settings = {} })
-            else
-              client:stop()  -- fallback
-            end
+          if client:supports_method('workspace/didChangeConfiguration') then
+            client:notify('workspace/didChangeConfiguration', { settings = {} })
+          else
+            client:stop() -- fallback
+          end
         end
 
         vim.notify('dotnet format complete', vim.log.levels.INFO)
@@ -66,4 +64,6 @@ vim.keymap.set('n', '<leader>lf', function()
   )
 end, {
   desc = 'dotnet format (prefer .sln)',
+  buffer = 0
 })
+
