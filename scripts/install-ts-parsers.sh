@@ -7,6 +7,7 @@ parsers=(
   "tree-sitter-rust"
   "tree-sitter-c_sharp"
   "tree-sitter-xml"
+  "tree-sitter-powershell"
 )
 
 
