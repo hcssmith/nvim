@@ -15,7 +15,6 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.signcolumn = "yes"
 vim.opt.winborder = "rounded"
-vim.opt.path:append('**')
 vim.opt.exrc = true
 vim.opt.secure = true
 
