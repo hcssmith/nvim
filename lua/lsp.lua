@@ -20,13 +20,7 @@ end)
 
 
 
-vim.lsp.enable({
-  "luals",
-  "clangd",
-  "bashls",
-  "ols",
-  "csharp_ls"
-})
+vim.lsp.enable(servers)
 
 ---@param client vim.lsp.Client
 ---@param bufnr integer
@@ -58,6 +52,19 @@ local function enable_if_supported(client, method, fn)
     fn()
   end
 end
+
+local servers = {"luals", "clangd", "bashls", "ols", "csharp_ls"}
+
+local function restart_lsp()
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    vim.lsp.stop_client(client.id)
+  end
+  vim.defer_fn(function()
+    vim.lsp.enable(servers)
+  end, 100)
+end
+
+vim.keymap.set('n', '<leader>lr', restart_lsp, { desc = 'Restart LSP' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
