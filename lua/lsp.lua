@@ -19,6 +19,7 @@ end)
 
 
 
+local servers = {"luals", "clangd", "bashls", "ols", "csharp_ls"}
 
 vim.lsp.enable(servers)
 
@@ -53,7 +54,6 @@ local function enable_if_supported(client, method, fn)
   end
 end
 
-local servers = {"luals", "clangd", "bashls", "ols", "csharp_ls"}
 
 local function restart_lsp()
   for _, client in ipairs(vim.lsp.get_clients()) do
