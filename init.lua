@@ -28,7 +28,10 @@ vim.cmd [[
   highlight NonText guibg=none
   highlight Normal ctermbg=none
   highlight NonText ctermbg=none
-  highlight StatusDefault ctermbg=NONE cterm=NONE
+  highlight clear StatusLine
+  highlight StatusLine guifg=LineNr guibg=NONE ctermbg=NONE cterm=NONE gui=NONE
+  highlight! link StatusLineNC StatusLine
+  highlight! link StatusDefault StatusLine
 ]]
 
 if vim.g.neovide then
