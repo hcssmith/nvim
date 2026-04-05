@@ -1,42 +1,40 @@
 local mode_map = {
-  ["n"] = { "NORMAL", "Normal" },
-  ["no"] = { "NORMAL", "Normal" },
-  ["v"] = { "VISUAL", "Visual" },
-  ["V"] = { "VISUAL LINE", "Visual" },
-  ["␖"] = { "VISUAL BLOCK", "Visual" },
-  ["s"] = { "SELECT", "Select" },
-  ["S"] = { "SELECT LINE", "Select" },
-  ["␓"] = { "SELECT BLOCK", "Select" },
-  ["i"] = { "INSERT", "Insert" },
-  ["ic"] = { "INSERT", "Insert" },
-  ["R"] = { "REPLACE", "Replace" },
-  ["Rv"] = { "VISUAL REPLACE", "Replace" },
-  ["c"] = { "COMMAND", "Command" },
-  ["cv"] = { "VIM EX", "Command" },
-  ["ce"] = { "EX", "Command" },
-  ["r"] = { "PROMPT", "Normal" },
-  ["rm"] = { "MOAR", "Normal" },
-  ["r?"] = { "CONFIRM", "Normal" },
-  ["!"] = { "SHELL", "Normal" },
-  ["t"] = { "TERMINAL", "Normal" },
-  ["nt"] = { "TERMINAL", "Normal" },
-  ["niI"] = {"INSERT NORMAL", "Normal"},
-  ["niR"] = {"REPLACE NORMAL", "Normal"},
-  ["niV"] = {"VISUAL NORMAL", "Normal"}
+  ["n"] = "NORMAL",
+  ["no"] = "NORMAL",
+  ["v"] = "VISUAL",
+  ["V"] = "VISUAL LINE",
+  ["␖"] = "VISUAL BLOCK",
+  ["s"] = "SELECT",
+  ["S"] = "SELECT LINE",
+  ["␓"] = "SELECT BLOCK",
+  ["i"] = "INSERT",
+  ["ic"] = "INSERT",
+  ["R"] = "REPLACE",
+  ["Rv"] = "VISUAL REPLACE",
+  ["c"] = "COMMAND",
+  ["cv"] = "VIM EX",
+  ["ce"] = "EX",
+  ["r"] = "PROMPT",
+  ["rm"] = "MOAR",
+  ["r?"] = "CONFIRM",
+  ["!"] = "SHELL",
+  ["t"] = "TERMINAL",
+  ["nt"] = "TERMINAL",
+  ["niI"] = "INSERT NORMAL",
+  ["niR"] = "REPLACE NORMAL",
+  ["niV"] = "VISUAL NORMAL",
 }
 
 _G.mode = function()
   local mode = vim.api.nvim_get_mode().mode
-  local highlight = "%#" .. mode_map[mode][2] .. "#%"
-  local reset = "%#StatusDefault#%"
-  return string.format("%s  %s %s ", highlight, mode_map[mode][1], reset)
+  local label = mode_map[mode] or mode:upper()
+  return string.format("  %s ", label)
 end
 
 _G.branch_name = function()
   local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
-  local hi = "%#DiagnosticInfo#%"
   if branch ~= "" then
-    return string.format("%s   %s", hi, branch)
+    return string.format("   %s", branch)
   else
     return ""
   end
@@ -87,10 +85,8 @@ _G.lsp_status = function()
   else
     return ""
   end
-  local hi = "%#DiagnosticOk#%"
-  local reset = "%#StatusDefault#%"
 
-  return string.format("%s  %s %s ", hi, status_message, reset)
+  return string.format("  %s ", status_message)
 end
 
 vim.api.nvim_create_autocmd('LspProgress', {
@@ -103,27 +99,21 @@ vim.api.nvim_create_autocmd('LspProgress', {
 
 
 _G.lsp_warnings = function()
-  -- get number of lsp warnings in feed
   local warnings = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
   local count = vim.tbl_count(warnings)
-  local hi = "%#DiagnosticWarn#%"
-  local reset = "%#StatusDefault#%"
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("   %s ", count)
 end
 
 _G.lsp_errors = function()
-  -- get number of lsp errors in feed
   local warnings = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
   local count = vim.tbl_count(warnings)
-  local hi = "%#DiagnosticError#%"
-  local reset = "%#StatusDefault#%"
   if count == 0 then
     return ""
   end
-  return string.format("%s  %s %s ", hi, count, reset)
+  return string.format("   %s ", count)
 end
 
 _G.filetype = function()
