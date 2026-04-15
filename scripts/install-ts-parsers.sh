@@ -8,6 +8,7 @@ parsers=(
   "tree-sitter-c_sharp"
   "tree-sitter-xml"
   "tree-sitter-powershell"
+  "tree-sitter-latex"
 )
 
 
