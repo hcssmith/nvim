@@ -1,6 +1,7 @@
 local parsers = {
   cs = "c_sharp",
-  ps1 = "powershell"
+  ps1 = "powershell",
+  tex = "latex"
 }
 
 
